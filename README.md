@@ -1,16 +1,10 @@
-# This repository has been updated to take in values in the list format instead of passing only minimum and maximum values to the filterColumn. 
+## This repository has the necessary code updated to input values in the list format while running the PowerShell script instead of passing only minimum and maximum values to the filterColumn. 
 
 
+Source repo - [Load Testing Tool](http://aka.ms/PowerBILoadTestingTool).
 
-## Welcome To the Power BI Premium and Embedded Tools and Utilities Repository
 
-This repository is meant to host tools and utilities designed to improve all aspects of Power BI capacity managment and lifecycle.
-
-## Available Tools (as of July 2019)
-
-[Load Testing Tool](http://aka.ms/PowerBILoadTestingTool).
-
-## Contributing
+### Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
