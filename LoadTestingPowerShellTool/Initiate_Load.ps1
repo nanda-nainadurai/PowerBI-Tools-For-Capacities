@@ -38,8 +38,7 @@ $token_regex = '(?<=PBIToken\":\").*?(?=\")'
 $reportUrlRegex = '(?<=reportUrl\":\").*?(?=\")' 
 $filterTableRegex = '(?<=filterTable\":\").*?(?=\")'
 $filterColumnRegex = '(?<=filterColumn\":\").*?(?=\")'
-$minValueRegex = '(?<=filterStart\":).*?(?=,)' 
-$maxValueRegex = '(?<=filterMax\":).*?(?=,)'
+$listValueRegex = '(?<=filterList\":).*?(?=,)'
 
 
 #Function implementation to update token file
@@ -58,8 +57,9 @@ function UpdateReportParameters
     $new_ReportJSONFile = ($reportJSONFile -replace $reportUrlRegex,$args[0][0])
     $new_ReportJSONFile = ($new_ReportJSONFile -replace $filterTableRegex,$args[0][1][0])
     $new_ReportJSONFile = ($new_ReportJSONFile -replace $filterColumnRegex,$args[0][1][1])  
-    $new_ReportJSONFile = ($new_ReportJSONFile -replace $minValueRegex,$args[0][1][2])
-    $new_ReportJSONFile = ($new_ReportJSONFile -replace $maxValueRegex,$args[0][1][3])
+    # replace ";" with "," for json compatability and use it in the JSON file
+    $list = ($args[0][1][2] -replace ";",",")  
+    $new_ReportJSONFile = ($new_ReportJSONFile -replace $listValueRegex,$list)
     $new_ReportJSONFile | set-content $(Join-Path $destinationDir 'PBIReport.JSON')
 }
 
@@ -115,15 +115,15 @@ while($reportCount -gt 0)
     $reportSelection = Read-Host "Select report index from above"
 
     $reportUrl = $($reportList[$reportSelection-1].EmbedUrl) #Read-Host -Prompt 'Enter Report Embed URL'
-    Write-Host "Filters require FilterTable, FilterColumn,MinimumValue and MaximumValue in FilterColumn" -ForegroundColor Yellow
+    Write-Host "Filters require FilterTable, FilterColumn,FilterValues in FilterColumn" -ForegroundColor Yellow
 
     # loop to prompt user for filter conditions until inputs are in the required format
     $filterInputValidation = $true
     while($filterInputValidation)
     {     
-        $filters = Read-Host -Prompt 'Enter Filter values separated by comma(,). Ex:TableName,ColumnName,100,1000' 
+        $filters = Read-Host -Prompt 'Enter Filter values separated by comma(,). Ex:TableName,ColumnName,["UK";"US";"IN"]' 
         $filterParameters = $filters.Split(',')
-        if($filterParameters.count -lt 4)
+        if($filterParameters.count -lt 3)
         {        
             Write-Host "Filters values entered incorrectly. Try entering again in the specified format." -ForegroundColor Red
         }

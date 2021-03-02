@@ -66,15 +66,19 @@
 
         var embedUrl = JSON.parse(reportParameters).reportUrl;
 
-        
-
         //TODO: replace with the seed filter value for your specific report filter 
 
-        const filterStart = JSON.parse(reportParameters).filterStart;
+        // Read the list value from JSON file
+        const filterList = JSON.parse(reportParameters).filterList;
 
-        var filterValue = filterStart; 
-
-        var filterMax = JSON.parse(reportParameters).filterMax;
+        // Get the length of the list
+        var filterLength = filterList.length;
+        
+        // Initialize starting number item index to 0
+        var itemNumber = 0;
+        
+        // Initialize first value of the filter from the list
+        var filterValue = filterList[itemNumber]; 
 
         var filterTable = JSON.parse(reportParameters).filterTable;
 
@@ -147,14 +151,18 @@
                     };
 
 
-
-            //incrementing filter value; restarting if hit numeric filter max
+            //incrementing filter value in list; restarting if hit max length of list
 
             //TODO: adjust value for your specific filter range
 
-            filterValue = filterValue < filterMax ? ++filterValue : filterStart;            
+            if(itemNumber < filterLength) {
+                filterValue = filterList[itemNumber];
+                itemNumber++;
+            } else {
+                itemNumber = 0;
+            }
 
-
+            
 
             // Embed configuration is used to describe what and how to embed
 
