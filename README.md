@@ -1,3 +1,5 @@
+## Update
+
 This repository has the necessary code updated to input values in the list format while running the PowerShell script instead of passing only minimum and maximum values to the filterColumn. 
 
 Source repo - [Load Testing Tool](http://aka.ms/PowerBILoadTestingTool).
